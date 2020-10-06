@@ -1,5 +1,4 @@
-﻿<Page
-    x:Class="XChecklistReader.MainPage"
+﻿<Page x:Class="XChecklistReader.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:XChecklistReader"
@@ -8,7 +7,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<TextBlock Text="Hello, world!" Margin="20" FontSize="30" x:Name="lblSelectedFile"/>
-        <Button Click="ButtonBase_OnClick" Content="Open xchecklist file ..."></Button>
+		<TextBlock Text="{Binding Path=SelectedFilePath}" Margin="20" FontSize="30" />
+        <Button Command="{Binding Path=SelectFileCommand}" Content="Open xchecklist file ..."></Button>
     </Grid>
 </Page>
