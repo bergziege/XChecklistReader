@@ -31,13 +31,11 @@ namespace XChecklistReader
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e) {
             FileOpenPicker fileOpenPicker = new Windows.Storage.Pickers.FileOpenPicker();
-            fileOpenPicker.ViewMode = PickerViewMode.Thumbnail;
-            fileOpenPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            fileOpenPicker.FileTypeFilter.Add(".jpg");
-            fileOpenPicker.FileTypeFilter.Add(".jpeg");
-            fileOpenPicker.FileTypeFilter.Add(".png");
+            fileOpenPicker.ViewMode = PickerViewMode.List;
+            fileOpenPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            fileOpenPicker.FileTypeFilter.Add(".txt");
             StorageFile file = await fileOpenPicker.PickSingleFileAsync();
-            
+            lblSelectedFile.Text = file.Path;
         }
     }
 }

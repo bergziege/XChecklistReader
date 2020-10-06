@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<TextBlock Text="Hello, world!" Margin="20" FontSize="30" />
-        <Button Click="ButtonBase_OnClick"></Button>
+		<TextBlock Text="Hello, world!" Margin="20" FontSize="30" x:Name="lblSelectedFile"/>
+        <Button Click="ButtonBase_OnClick" Content="Open xchecklist file ..."></Button>
     </Grid>
 </Page>
