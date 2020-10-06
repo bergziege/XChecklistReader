@@ -8,7 +8,7 @@ namespace XChecklistReader.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private string _selectedFilePath = "42";
+        private string _selectedFilePath = "";
 
         public MainPageViewModel() {
             SelectFileCommand = new DelegateCommand(SelectFile);

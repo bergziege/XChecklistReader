@@ -6,8 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<TextBlock Text="{Binding Path=SelectedFilePath}" Margin="20" FontSize="30" />
-        <Button Command="{Binding Path=SelectFileCommand}" Content="Open xchecklist file ..."></Button>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding Path=SelectFileCommand}" Content="Open xchecklist file ..." />
+            <TextBlock Text="{Binding Path=SelectedFilePath}" Margin="20" />
+        </StackPanel>
     </Grid>
 </Page>
