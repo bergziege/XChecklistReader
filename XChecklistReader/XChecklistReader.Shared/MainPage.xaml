@@ -4,6 +4,7 @@
     xmlns:local="using:XChecklistReader"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:domain="using:XChecklistReader.Services.Domain"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Top">
@@ -15,5 +16,16 @@
             <Button Command="{Binding Path=SelectFileCommand}" Content="Open xchecklist file ..." />
             <TextBlock Text="{Binding Path=SelectedFilePath}" Margin="20" />
         </StackPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=Checklists}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="domain:Checklist">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                        <TextBlock Text="|"></TextBlock>
+                        <TextBlock Text="{Binding Path=MenuName}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>

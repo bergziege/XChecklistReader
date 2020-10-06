@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Uno.UI.Common;
+using XChecklistReader.Services.Domain;
+using XChecklistReader.Services.Service;
+using XChecklistReader.Services.Service.Impl;
 
 
 namespace XChecklistReader.ViewModels
@@ -23,6 +28,8 @@ namespace XChecklistReader.ViewModels
             }
         }
 
+        public ObservableCollection<Checklist> Checklists { get; private set; } = new ObservableCollection<Checklist>();
+
         public DelegateCommand SelectFileCommand { get; }
 
         private async void SelectFile() {
@@ -33,6 +40,12 @@ namespace XChecklistReader.ViewModels
             StorageFile file = await fileOpenPicker.PickSingleFileAsync();
             if (file != null) {
                 SelectedFilePath = file.Path; 
+                IChecklistParser parser = new ChecklistParser(new FileService());
+                IList<Checklist> checklists = await parser.ParseFromFile(file);
+                Checklists.Clear();
+                foreach (Checklist checklist in checklists) {
+                    Checklists.Add(checklist);
+                }
             }
         }
     }

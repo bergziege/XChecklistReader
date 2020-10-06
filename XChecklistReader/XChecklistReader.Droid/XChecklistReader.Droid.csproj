@@ -89,6 +89,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values\Styles.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\XChecklistReader.Services\XChecklistReader.Services.csproj">
+      <Project>{FF05126E-E479-47C5-AA90-ADA6A207745E}</Project>
+      <Name>XChecklistReader.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\XChecklistReader.Shared\XChecklistReader.Shared.projitems" Label="Shared" Condition="Exists('..\XChecklistReader.Shared\XChecklistReader.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- This will force the generation of the APK when not building inside visual studio -->
