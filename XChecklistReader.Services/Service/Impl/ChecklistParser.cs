@@ -5,15 +5,9 @@ using XChecklistReader.Services.Domain;
 
 namespace XChecklistReader.Services.Service.Impl {
     public class ChecklistParser : IChecklistParser {
-        private readonly IFileService _fileService;
-
-        public ChecklistParser(IFileService fileService) {
-            _fileService = fileService;
-        }
-
-        public async Task<IList<Checklist>> ParseFromFile(StorageFile filePath) {
-            var lines =  await _fileService.ReadFileAsLines(filePath);
-
+ 
+        public async Task<IList<Checklist>> ParseFromFile(IList<string> lines) {
+            
             IList<Checklist> checklists = new List<Checklist>();
 
             Checklist currentChecklist = null;

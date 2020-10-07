@@ -1,51 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+using System.Net.Http;
+using Newtonsoft.Json;
 using Uno.UI.Common;
 using XChecklistReader.Services.Domain;
 using XChecklistReader.Services.Service;
 using XChecklistReader.Services.Service.Impl;
 
-
-namespace XChecklistReader.ViewModels
-{
-    public class MainPageViewModel : ViewModelBase
-    {
-        private string _selectedFilePath = "";
-
+namespace XChecklistReader.ViewModels {
+    public class MainPageViewModel : ViewModelBase {
+        private readonly HttpClient _httpClient;
+        
         public MainPageViewModel() {
             SelectFileCommand = new DelegateCommand(SelectFile);
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://checklists.berndnet-2000.de");
+            LoadFiles();
         }
 
-        public string SelectedFilePath
-        {
-            get => _selectedFilePath;
-            private set {
-                _selectedFilePath = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<string> AvailableFiles { get; } = new ObservableCollection<string>();
 
-        public ObservableCollection<Checklist> Checklists { get; private set; } = new ObservableCollection<Checklist>();
+        public string SelectedAvailableFile { get; set; }
+
+        public ObservableCollection<Checklist> Checklists { get; } = new ObservableCollection<Checklist>();
 
         public DelegateCommand SelectFileCommand { get; }
 
+        private async void LoadFiles() {
+            var httpResponseMessage = await _httpClient.GetAsync("rest/checklist/file.php");
+            if (httpResponseMessage.IsSuccessStatusCode) {
+                var jsonResponse = await httpResponseMessage.Content.ReadAsStringAsync();
+                var availableFiles = JsonConvert.DeserializeObject<IList<string>>(jsonResponse);
+                foreach (var availableFile in availableFiles) AvailableFiles.Add(availableFile);
+            }
+        }
+
         private async void SelectFile() {
-            FileOpenPicker fileOpenPicker = new Windows.Storage.Pickers.FileOpenPicker();
-            fileOpenPicker.ViewMode = PickerViewMode.List;
-            fileOpenPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-            fileOpenPicker.FileTypeFilter.Add(".txt");
-            StorageFile file = await fileOpenPicker.PickSingleFileAsync();
-            if (file != null) {
-                SelectedFilePath = file.Path; 
-                IChecklistParser parser = new ChecklistParser(new FileService());
-                IList<Checklist> checklists = await parser.ParseFromFile(file);
+            var httpResponseMessage = await _httpClient.GetAsync(SelectedAvailableFile);
+            if (httpResponseMessage.IsSuccessStatusCode) {
+                var fileContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                IList<string> lines = new List<string>();
+                foreach (var line in fileContent.Split(Environment.NewLine)) lines.Add(line);
+
+                IChecklistParser parser = new ChecklistParser();
+                var checklists = await parser.ParseFromFile(lines);
                 Checklists.Clear();
-                foreach (Checklist checklist in checklists) {
-                    Checklists.Add(checklist);
-                }
+                foreach (var checklist in checklists) Checklists.Add(checklist);
             }
         }
     }

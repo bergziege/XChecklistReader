@@ -13,8 +13,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
+            <ComboBox ItemsSource="{Binding Path=AvailableFiles}" SelectedItem="{Binding Path=SelectedAvailableFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"></ComboBox>
             <Button Command="{Binding Path=SelectFileCommand}" Content="Open xchecklist file ..." />
-            <TextBlock Text="{Binding Path=SelectedFilePath}" Margin="20" />
         </StackPanel>
         <ListView Grid.Row="1" ItemsSource="{Binding Path=Checklists}">
             <ListView.ItemTemplate>
