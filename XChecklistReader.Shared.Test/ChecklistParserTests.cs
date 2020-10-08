@@ -67,5 +67,55 @@ namespace XChecklistReader.Shared.Test
             checklists.First().Name.Should().Be("Display name");
             checklists.First().MenuName.Should().Be("Menu name");
         }
+
+        [Test]
+        public void ChecklistItemInChecklistShouldHaveDescription() {
+            /* Given */
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}");
+            lines.Add($"{SimpleChecklistItem.KEYWORD}Gear lever");
+
+            IChecklistParser parser = new ChecklistParser();
+
+            /* When */
+            IList<Checklist> checklists = parser.ParseLines(lines);
+
+            /* Then */
+            checklists.Single().ChecklistItems.Single().As<SimpleChecklistItem>().Description.Should().Be("Gear lever");
+        }
+
+        [Test]
+        public void ChecklistItemInChecklistShouldHaveDefaultCondition()
+        {
+            /* Given */
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}");
+            lines.Add($"{SimpleChecklistItem.KEYWORD}Gear lever");
+
+            IChecklistParser parser = new ChecklistParser();
+
+            /* When */
+            IList<Checklist> checklists = parser.ParseLines(lines);
+
+            /* Then */
+            checklists.Single().ChecklistItems.Single().As<SimpleChecklistItem>().Condition.Should().Be("Checked");
+        }
+
+        [Test]
+        public void ChecklistItemInChecklistShouldHaveCustomCondition()
+        {
+            /* Given */
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}");
+            lines.Add($"{SimpleChecklistItem.KEYWORD}Gear lever|down");
+
+            IChecklistParser parser = new ChecklistParser();
+
+            /* When */
+            IList<Checklist> checklists = parser.ParseLines(lines);
+
+            /* Then */
+            checklists.Single().ChecklistItems.Single().As<SimpleChecklistItem>().Condition.Should().Be("down");
+        }
     }
 }
