@@ -117,5 +117,39 @@ namespace XChecklistReader.Shared.Test
             /* Then */
             checklists.Single().ChecklistItems.Single().As<SimpleChecklistItem>().Condition.Should().Be("down");
         }
+
+        [Test]
+        public void ChecklistItemInChecklistShouldHaveDataref()
+        {
+            /* Given */
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}");
+            lines.Add($"{SimpleChecklistItem.KEYWORD}Gear lever|down:my/simple/dataref:>1.2");
+
+            IChecklistParser parser = new ChecklistParser();
+
+            /* When */
+            IList<Checklist> checklists = parser.ParseLines(lines);
+
+            /* Then */
+            checklists.Single().ChecklistItems.Single().As<SimpleChecklistItem>().Dataref.Should().Be("my/simple/dataref");
+        }
+
+        [Test]
+        public void ChecklistItemInChecklistShouldHaveDatarefCondition()
+        {
+            /* Given */
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}");
+            lines.Add($"{SimpleChecklistItem.KEYWORD}Gear lever|down:my/simple/dataref:>1.2");
+
+            IChecklistParser parser = new ChecklistParser();
+
+            /* When */
+            IList<Checklist> checklists = parser.ParseLines(lines);
+
+            /* Then */
+            checklists.Single().ChecklistItems.Single().As<SimpleChecklistItem>().DatarefCondition.Should().Be(">1.2");
+        }
     }
 }
