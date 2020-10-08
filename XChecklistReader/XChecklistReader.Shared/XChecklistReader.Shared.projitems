@@ -23,6 +23,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UI\Main\IMainPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Main\TemplateSelectors\ChecklistItemTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Main\ViewModels\MainPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Commons\ViewModelBase.cs" />
   </ItemGroup>

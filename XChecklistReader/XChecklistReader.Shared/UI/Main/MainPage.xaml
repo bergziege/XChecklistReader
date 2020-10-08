@@ -1,31 +1,77 @@
 ﻿<Page x:Class="XChecklistReader.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:XChecklistReader"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:domain="using:XChecklistReader.Services.Domain"
-    xmlns:designViewModels="using:XChecklistReader.UI.Main.DesignViewModels"
-    mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance Type=designViewModels:MainPageDesignViewModel, IsDesignTimeCreatable=True}">
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:domain="using:XChecklistReader.Services.Domain"
+      xmlns:designViewModels="using:XChecklistReader.UI.Main.DesignViewModels"
+      xmlns:templateSelectors="using:XChecklistReader.UI.Main.TemplateSelectors"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance Type=designViewModels:MainPageDesignViewModel, IsDesignTimeCreatable=True}">
 
+    <Page.Resources>
+        <templateSelectors:ChecklistItemTemplateSelector x:Key="ItemTemplateSelector">
+            <templateSelectors:ChecklistItemTemplateSelector.SimpleChecklistItemTemplate>
+                <DataTemplate x:DataType="domain:SimpleChecklistItem">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Path=Condition}" Grid.Column="1" TextWrapping="Wrap"/>
+                    </Grid>
+                </DataTemplate>
+            </templateSelectors:ChecklistItemTemplateSelector.SimpleChecklistItemTemplate>
+        </templateSelectors:ChecklistItemTemplateSelector>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Top">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <ComboBox ItemsSource="{Binding Path=AvailableFiles}" SelectedItem="{Binding Path=SelectedAvailableFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"></ComboBox>
-            <Button Command="{Binding Path=SelectFileCommand}" Content="Open xchecklist file ..." />
+            <ComboBox ItemsSource="{Binding Path=AvailableFiles}"
+                      SelectedItem="{Binding Path=SelectedAvailableFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      VerticalAlignment="Center"
+                      Margin="10" />
+            <Button Command="{Binding Path=SelectFileCommand}" Content="Open xchecklist file ..."
+                    Margin="0,10,10,10" />
         </StackPanel>
-        <ListView Grid.Row="1" ItemsSource="{Binding Path=Checklists}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=Checklists}" HorizontalContentAlignment="Stretch"
+                  HorizontalAlignment="Stretch" SelectionMode="None">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="domain:Checklist">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                        <TextBlock Text="|"></TextBlock>
-                        <TextBlock Text="{Binding Path=MenuName}"></TextBlock>
-                    </StackPanel>
+                    <Grid HorizontalAlignment="Stretch" Margin="0,0,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border Background="#E8E8E8" Padding="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Path=Name}" />
+                                <TextBlock Text="Menu name:" HorizontalAlignment="Right" Grid.Column="1" FontSize="11"
+                                           VerticalAlignment="Center" Margin="0,0,3,0"
+                                           Foreground="Gray" />
+                                <TextBlock Text="{Binding Path=MenuName}" Grid.Column="2" FontSize="11"
+                                           VerticalAlignment="Center" Foreground="Gray" />
+                            </Grid>
+                        </Border>
+                        
+                        <ItemsControl ItemsSource="{Binding Path=ChecklistItems}"
+                                      ItemTemplateSelector="{StaticResource ItemTemplateSelector}"
+                                      Grid.Row="1" Margin="10,0,0,0" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
