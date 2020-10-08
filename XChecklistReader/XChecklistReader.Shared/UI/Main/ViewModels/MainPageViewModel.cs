@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using Newtonsoft.Json;
+using UI.Commons;
 using Uno.UI.Common;
 using XChecklistReader.Services.Domain;
 using XChecklistReader.Services.Service;
 using XChecklistReader.Services.Service.Impl;
 
-namespace XChecklistReader.ViewModels {
-    public class MainPageViewModel : ViewModelBase {
+namespace UI.Main.ViewModels {
+    public class MainPageViewModel : ViewModelBase, IMainPageViewModel {
         private readonly HttpClient _httpClient;
         
         public MainPageViewModel() {
@@ -44,7 +45,7 @@ namespace XChecklistReader.ViewModels {
                 foreach (var line in fileContent.Split(Environment.NewLine)) lines.Add(line);
 
                 IChecklistParser parser = new ChecklistParser();
-                var checklists = await parser.ParseFromFile(lines);
+                var checklists = parser.ParseLines(lines);
                 Checklists.Clear();
                 foreach (var checklist in checklists) Checklists.Add(checklist);
             }

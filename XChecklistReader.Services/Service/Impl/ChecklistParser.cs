@@ -6,7 +6,7 @@ using XChecklistReader.Services.Domain;
 namespace XChecklistReader.Services.Service.Impl {
     public class ChecklistParser : IChecklistParser {
  
-        public async Task<IList<Checklist>> ParseFromFile(IList<string> lines) {
+        public IList<Checklist> ParseLines(IList<string> lines) {
             
             IList<Checklist> checklists = new List<Checklist>();
 

@@ -5,6 +5,6 @@ using XChecklistReader.Services.Domain;
 
 namespace XChecklistReader.Services.Service {
     public interface IChecklistParser {
-        Task<IList<Checklist>> ParseFromFile(IList<string> lines);
+        IList<Checklist> ParseLines(IList<string> lines);
     }
 }

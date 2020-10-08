@@ -18,13 +18,13 @@ namespace XChecklistReader.Shared.Test
         public void ChecklistLineWithoutContentShouldGiveChecklistWithoutNames()
         {
             /* Given: single checklist line but no content */
-            Mock<IFileService> fileServiceMock = new Mock<IFileService>();
-            fileServiceMock.Setup(x => x.ReadFileAsLines("")).Returns(new List<string>() {Checklist.KEYWORD});
+            IList<string> lines = new List<string>();
+            lines.Add(Checklist.KEYWORD);
 
-            IChecklistParser parser = new ChecklistParser(fileServiceMock.Object);
+            IChecklistParser parser = new ChecklistParser();
 
             /* When: the line gets parsed */
-            IList<Checklist> checklists = parser.ParseFromFile("");
+            IList<Checklist> checklists = parser.ParseLines(lines);
 
             /* Then: I expect to get a single checklist without name or menue name */
             checklists.Count.Should().Be(1);
@@ -36,13 +36,13 @@ namespace XChecklistReader.Shared.Test
         public void ChecklistLineWithSingleValueContentShouldGiveChecklistWithName()
         {
             /* Given: single checklist line but no content */
-            Mock<IFileService> fileServiceMock = new Mock<IFileService>();
-            fileServiceMock.Setup(x => x.ReadFileAsLines("")).Returns(new List<string>() { $"{Checklist.KEYWORD}test" });
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}test");
 
-            IChecklistParser parser = new ChecklistParser(fileServiceMock.Object);
+            IChecklistParser parser = new ChecklistParser();
 
             /* When: the line gets parsed */
-            IList<Checklist> checklists = parser.ParseFromFile("");
+            IList<Checklist> checklists = parser.ParseLines(lines);
 
             /* Then: I expect to get a single checklist without name or menue name */
             checklists.Count.Should().Be(1);
@@ -54,13 +54,13 @@ namespace XChecklistReader.Shared.Test
         public void ChecklistLineWithDualValueContentShouldGiveChecklistWithNames()
         {
             /* Given: single checklist line but no content */
-            Mock<IFileService> fileServiceMock = new Mock<IFileService>();
-            fileServiceMock.Setup(x => x.ReadFileAsLines("")).Returns(new List<string>() { $"{Checklist.KEYWORD}Display name:Menu name" });
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}Display name:Menu name");
 
-            IChecklistParser parser = new ChecklistParser(fileServiceMock.Object);
+            IChecklistParser parser = new ChecklistParser();
 
             /* When: the line gets parsed */
-            IList<Checklist> checklists = parser.ParseFromFile("");
+            IList<Checklist> checklists = parser.ParseLines(lines);
 
             /* Then: I expect to get a single checklist without name or menue name */
             checklists.Count.Should().Be(1);
