@@ -17,8 +17,8 @@ namespace XChecklistReader.Services.Service.Impl {
                 }
 
                 if (currentChecklist != null && line.StartsWith(SimpleChecklistItem.KEYWORD)) {
-                    (var description, var condition, var dataref, var datarefCondition) = ParseSImpleChecklistItem(line);
-                    currentChecklist.AddItem(new SimpleChecklistItem(description, condition, dataref, datarefCondition));
+                    (var description, var condition) = ParseSImpleChecklistItem(line);
+                    currentChecklist.AddItem(new SimpleChecklistItem(description, condition));
                 }
             }
 
@@ -27,18 +27,15 @@ namespace XChecklistReader.Services.Service.Impl {
             return checklists;
         }
 
-        private (string, string, string, string) ParseSImpleChecklistItem(string line) {
+        private (string, string) ParseSImpleChecklistItem(string line) {
             string lineContent = line.Replace(SimpleChecklistItem.KEYWORD, "");
             if (!string.IsNullOrWhiteSpace(lineContent)) {
                 string[] splitContent = lineContent.Split('|');
-                if (splitContent.Length == 1) return (splitContent[0], "","","");
-                if (splitContent[1].Contains(":")) {
-                    
-                }
-                return (splitContent[0], splitContent[1], "", "");
+                if (splitContent.Length == 1) return (splitContent[0], "");
+                return (splitContent[0], splitContent[1]);
             }
 
-            return ("", "", "", "");
+            return ("", "");
         }
 
         private (string, string) ParseChecklistTitleLine(string line, string keyword) {

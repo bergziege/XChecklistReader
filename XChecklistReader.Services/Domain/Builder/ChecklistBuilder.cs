@@ -10,9 +10,9 @@ namespace XChecklistReader.Services.Domain.Builder {
         public Checklist Build() {
             if (_items.Empty()) {
                 SimpleCheckItemBuilder itemBuilder = new SimpleCheckItemBuilder();
-                _items.Add(itemBuilder.WithDescription("Check item 1").WithCondition("Down").WithDataref("my/simple/dataref").Build());
+                _items.Add(itemBuilder.WithDescription("Check item 1").WithCondition("Down").Build());
                 _items.Add(itemBuilder.WithDescription("Check item 2").Build());
-                _items.Add(itemBuilder.WithDescription("Check item 3").WithCondition("Up").WithDataref("my/simple/dataref").WithDatarefCondition(">1.2").Build());
+                _items.Add(itemBuilder.WithDescription("Check item 3").WithCondition("Up").Build());
             }
 
             Checklist checklist = new Checklist(_name, _menuName);

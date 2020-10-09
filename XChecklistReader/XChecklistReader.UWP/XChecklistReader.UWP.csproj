@@ -10,9 +10,6 @@
 			-->
       <Version>6.2.9</Version>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
-    </PackageReference>
     <PackageReference Include="Uno.Core" Version="2.0.0" />
     <PackageReference Include="Uno.UI" Version="3.0.12" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
@@ -152,7 +149,7 @@
       <HintPath>..\..\..\..\Users\Fotos\.nuget\packages\newtonsoft.json\12.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Uno.Foundation">
-      <HintPath>..\..\..\..\Users\Fotos\.nuget\packages\uno.ui\3.0.12\lib\MonoAndroid10.0\Uno.Foundation.dll</HintPath>
+      <HintPath>..\..\..\..\Users\boruttau\.nuget\packages\uno.ui\3.0.12\lib\MonoAndroid10.0\Uno.Foundation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
