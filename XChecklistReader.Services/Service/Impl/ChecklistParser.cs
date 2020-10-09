@@ -31,8 +31,13 @@ namespace XChecklistReader.Services.Service.Impl {
             string lineContent = line.Replace(SimpleChecklistItem.KEYWORD, "");
             if (!string.IsNullOrWhiteSpace(lineContent)) {
                 string[] splitContent = lineContent.Split('|');
-                if (splitContent.Length == 1) return (splitContent[0], "");
-                return (splitContent[0], splitContent[1]);
+                string description = splitContent[0];
+                if (splitContent.Length == 1) return (description, "");
+                string condition = splitContent[1];
+                if (condition.Contains(":")) {
+                    condition = condition.Substring(0, condition.IndexOf(':'));
+                }
+                return (description, condition);
             }
 
             return ("", "");
@@ -42,8 +47,10 @@ namespace XChecklistReader.Services.Service.Impl {
             var lineContent = line.Replace(Checklist.KEYWORD, "");
             if (lineContent != string.Empty) {
                 var splitContent = lineContent.Split(':');
-                if (splitContent.Length == 1) return (splitContent[0], "");
-                return (splitContent[0], splitContent[1]);
+                string name = splitContent[0];
+                if (splitContent.Length == 1) return (name, "");
+                string menuName = splitContent[1];
+                return (name, menuName);
             }
 
             return ("", "");
