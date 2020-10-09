@@ -13,7 +13,6 @@ namespace XChecklistReader.Shared.Test
     public class ChecklistParserTests
     {
         
-
         [Test]
         public void ChecklistLineWithoutContentShouldGiveChecklistWithoutNames()
         {
@@ -133,6 +132,39 @@ namespace XChecklistReader.Shared.Test
 
             /* Then */
             checklists.Single().ChecklistItems.Single().As<SimpleChecklistItem>().Condition.Should().Be("down");
+        }
+
+        [Test]
+        public void VoidItemWithoutContentShouldHaveEmptyDescription() {
+            /* Given */
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}");
+            lines.Add($"{VoidChecklistItem.KEYWORD}");
+
+            IChecklistParser parser = new ChecklistParser();
+
+            /* When */
+            IList<Checklist> checklists = parser.ParseLines(lines);
+
+            /* Then */
+            checklists.Single().ChecklistItems.Single().As<VoidChecklistItem>().Description.Should().BeEmpty();
+        }
+
+        [Test]
+        public void VoidItemWithContentShouldHaveDescription()
+        {
+            /* Given */
+            IList<string> lines = new List<string>();
+            lines.Add($"{Checklist.KEYWORD}");
+            lines.Add($"{VoidChecklistItem.KEYWORD}Section A : and B ?");
+
+            IChecklistParser parser = new ChecklistParser();
+
+            /* When */
+            IList<Checklist> checklists = parser.ParseLines(lines);
+
+            /* Then */
+            checklists.Single().ChecklistItems.Single().As<VoidChecklistItem>().Description.Should().Be("Section A : and B ?");
         }
     }
 }

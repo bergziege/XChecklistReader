@@ -25,6 +25,17 @@
                     </Grid>
                 </DataTemplate>
             </templateSelectors:ChecklistItemTemplateSelector.SimpleChecklistItemTemplate>
+            <templateSelectors:ChecklistItemTemplateSelector.VoidItemTemplate>
+                <DataTemplate x:DataType="domain:SimpleChecklistItem">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Description}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </templateSelectors:ChecklistItemTemplateSelector.VoidItemTemplate>
         </templateSelectors:ChecklistItemTemplateSelector>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Top">

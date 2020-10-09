@@ -20,11 +20,19 @@ namespace XChecklistReader.Services.Service.Impl {
                     (var description, var condition) = ParseSImpleChecklistItem(line);
                     currentChecklist.AddItem(new SimpleChecklistItem(description, condition));
                 }
+
+                if (currentChecklist != null && line.StartsWith(VoidChecklistItem.KEYWORD)) {
+                    currentChecklist.AddItem(new VoidChecklistItem(ParseVoidChecklistItem(line)));
+                }
             }
 
             if (currentChecklist != null) checklists.Add(currentChecklist);
 
             return checklists;
+        }
+
+        private string ParseVoidChecklistItem(string line) {
+            return line.Replace(VoidChecklistItem.KEYWORD, "");
         }
 
         private (string, string) ParseSImpleChecklistItem(string line) {
