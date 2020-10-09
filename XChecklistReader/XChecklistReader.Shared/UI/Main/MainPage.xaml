@@ -15,11 +15,13 @@
                 <DataTemplate x:DataType="domain:SimpleChecklistItem">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap"/>
-                        <TextBlock Text="{Binding Path=Condition}" Grid.Column="1" TextWrapping="Wrap"/>
+                        <CheckBox Content="" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Description}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Path=Condition}" Grid.Column="2" TextWrapping="Wrap" VerticalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
             </templateSelectors:ChecklistItemTemplateSelector.SimpleChecklistItemTemplate>
