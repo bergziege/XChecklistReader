@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -165,6 +166,37 @@ namespace XChecklistReader.Shared.Test
 
             /* Then */
             checklists.Single().ChecklistItems.Single().As<VoidChecklistItem>().Description.Should().Be("Section A : and B ?");
+        }
+
+        [Test]
+        public void ColoredItemShouldHaveCorrectlyColoredParts()
+        {
+            /* Given */
+            IList<string> lines = new List<string>();
+            lines.Add($"{ChecklistParser.KEYWORD_COLOR_DEF}red:1.0,0.0,0.0");
+            lines.Add($"{ChecklistParser.KEYWORD_COLOR_DEF}grey:0.8,0.8,0.8");
+            lines.Add($"{Checklist.KEYWORD}");
+            lines.Add(@$"{VoidChecklistItemColored.KEYWORD}\red\Section \grey\A \red\and \grey\B ?");
+            Color red = Color.FromArgb(255, 255, 0, 0);
+            Color grey = Color.FromArgb(255, 204, 204, 204);
+
+            IChecklistParser parser = new ChecklistParser();
+
+            /* When */
+            IList<Checklist> checklists = parser.ParseLines(lines);
+
+            /* Then */
+            VoidChecklistItemColored voidChecklistItemColored = checklists.Single().ChecklistItems.Single().As<VoidChecklistItemColored>();
+            voidChecklistItemColored.Content.Count.Should().Be(4);
+            voidChecklistItemColored.Content[0].Color.Should().Be(red);
+            voidChecklistItemColored.Content[1].Color.Should().Be(grey);
+            voidChecklistItemColored.Content[2].Color.Should().Be(red);
+            voidChecklistItemColored.Content[3].Color.Should().Be(grey);
+
+            voidChecklistItemColored.Content[0].Content.Should().Be("Section ");
+            voidChecklistItemColored.Content[1].Content.Should().Be("A ");
+            voidChecklistItemColored.Content[2].Content.Should().Be("and ");
+            voidChecklistItemColored.Content[3].Content.Should().Be("B ?");
         }
     }
 }
