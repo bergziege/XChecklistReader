@@ -9,6 +9,8 @@ namespace XChecklistReader.UI.Main.TemplateSelectors {
 
         public DataTemplate VoidItemTemplate { get; set; }
 
+        public DataTemplate ColoredVoidItemTemplate { get; set; }
+
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container) {
             if (item is SimpleChecklistItem) {
                 return SimpleChecklistItemTemplate;
@@ -16,6 +18,10 @@ namespace XChecklistReader.UI.Main.TemplateSelectors {
 
             if (item is VoidChecklistItem) {
                 return VoidItemTemplate;
+            }
+
+            if (item is VoidChecklistItemColored) {
+                return ColoredVoidItemTemplate;
             }
             return base.SelectTemplateCore(item, container);
         }

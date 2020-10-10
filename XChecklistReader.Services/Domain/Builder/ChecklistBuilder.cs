@@ -11,10 +11,12 @@ namespace XChecklistReader.Services.Domain.Builder {
             if (_items.Empty()) {
                 SimpleCheckItemBuilder itemBuilder = new SimpleCheckItemBuilder();
                 VoidChecklistItemBuilder voidBuilder = new VoidChecklistItemBuilder();
+                VoidChecklistItemColoredBuilder voidColorBuilder = new VoidChecklistItemColoredBuilder();
                 _items.Add(itemBuilder.WithDescription("Check item 1").WithCondition("Down").Build());
                 _items.Add(voidBuilder.WithDescription("Some descriptive void item").Build());
                 _items.Add(itemBuilder.WithDescription("Check item 2").Build());
                 _items.Add(itemBuilder.WithDescription("Check item 3").WithCondition("Up").Build());
+                _items.Add(voidColorBuilder.Build());
             }
 
             Checklist checklist = new Checklist(_name, _menuName);
