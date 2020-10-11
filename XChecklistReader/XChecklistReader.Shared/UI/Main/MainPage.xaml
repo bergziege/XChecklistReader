@@ -12,6 +12,7 @@
 
     <Page.Resources>
         <converter:ColorToSolidBrushConverter x:Key="ColorToSolidBrushConverter"  />
+        <converter:SpaceToNonbreakingSpaceConverter x:Key="SpaceToNonbreakingSpaceConverter"></converter:SpaceToNonbreakingSpaceConverter>
         <templateSelectors:ChecklistItemTemplateSelector x:Key="ItemTemplateSelector">
             <templateSelectors:ChecklistItemTemplateSelector.SimpleChecklistItemTemplate>
                 <DataTemplate x:DataType="domain:SimpleChecklistItem">
@@ -53,7 +54,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="domain:ColoredChecklistItemContentPart">
-                                    <TextBlock Foreground="{Binding Path=Color, Converter={StaticResource ColorToSolidBrushConverter}}" Text="{Binding Path=Content}"></TextBlock>
+                                    <TextBlock Foreground="{Binding Path=Color, Converter={StaticResource ColorToSolidBrushConverter}}" Text="{Binding Path=Content, Converter={StaticResource SpaceToNonbreakingSpaceConverter}}"></TextBlock>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

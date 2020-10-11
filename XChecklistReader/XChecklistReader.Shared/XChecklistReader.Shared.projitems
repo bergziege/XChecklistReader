@@ -19,6 +19,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UI\Main\Converter\ColorToSolidBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Main\Converter\SpaceToNonbreakingSpaceConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Main\DesignViewModels\MainPageDesignViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Main\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -42,6 +43,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)UI\Commons\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
   </ItemGroup>
 </Project>
